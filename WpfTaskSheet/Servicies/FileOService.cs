@@ -6,11 +6,11 @@ using WpfTaskSheet.Model;
 
 namespace WpfTaskSheet.Servicies
 {
-    class FileOService
+    class FileIOService
     {
         private readonly string PATH;
 
-        public FileOService(string path)
+        public FileIOService(string path)
         {
             PATH = path;
         }

@@ -1,13 +1,21 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 namespace WpfTaskSheet.Model
 {
     internal class TodoModel : INotifyPropertyChanged
     {
+        private bool _is_Done;
+        private string _text;
+
+       /// <summary>
+       /// Поля для сохранения в json
+       /// </summary>
+        [JsonProperty(PropertyName ="creationDate")]
         public DateTime CreationDate { get; set; } = DateTime.Now;
 
-        private bool _is_Done;
 
+        [JsonProperty(PropertyName = "isDone")]
         public bool IsDone
         {
             get { return _is_Done; }
@@ -16,11 +24,9 @@ namespace WpfTaskSheet.Model
                 _is_Done = value;
                 OnPropertyChanged("IsDone");
             }
-        }
+        }                                                       
 
-        private string _text;
-
-
+        [JsonProperty(PropertyName ="text")]
         public string Text
         {
             get { return _text; }
@@ -30,7 +36,9 @@ namespace WpfTaskSheet.Model
                 OnPropertyChanged("Text");
             }
         }
-
+        /// <summary>
+        /// Событие изменения ресурса
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName="")
         {

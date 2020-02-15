@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WpfTaskSheet.Model;
+using WpfTaskSheet.Servicies;
 
 namespace WpfTaskSheet
 {
@@ -24,40 +25,69 @@ namespace WpfTaskSheet
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly string PATH =$"{Environment.CurrentDirectory }\\ToDoData.json";
+        /// <summary>
+        /// Список данных
+        /// </summary>
         private BindingList<TodoModel> _todoDataList;
+        private FileIOService _fileIOService; 
+
         public MainWindow()
         {
             InitializeComponent();
         }
-
-        private void DataGreedToDoList_Loaded(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
+        
+         /// <summary>
+         /// Загрузка главного окна
+         /// </summary>
+         /// <param name="sender"></param>
+         /// <param name="e"></param>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            _todoDataList = new BindingList<TodoModel>()
-            {
-             new TodoModel(){ Text = "text 17" },
-             new TodoModel(){ Text = "text#95t347" },
-             new TodoModel(){ Text = "text#95t347" , IsDone = true }
+            _fileIOService = new FileIOService(PATH);
 
-        };
+            try
+            {
+            _todoDataList = _fileIOService.LoadData();   
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                Close();
+            }
+
             dgToDoList.ItemsSource = _todoDataList;
-            _todoDataList.ListChanged += _todoDataList_ListChanged;
+            _todoDataList.ListChanged += TodoDataList_ListChanged;
         }
 
-        private void _todoDataList_ListChanged(object sender, ListChangedEventArgs e)
+        /// <summary>
+        /// Изменение листа
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void TodoDataList_ListChanged(object sender, ListChangedEventArgs e)
         {
             if (e.ListChangedType == ListChangedType.ItemAdded ||
                 e.ListChangedType == ListChangedType.ItemChanged ||
                 e.ListChangedType == ListChangedType.ItemDeleted)
             {
-
+                try
+                {
+                    _fileIOService.SaveData((BindingList<TodoModel>)sender);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                    Close();
+                }
             }
                 
             
+        }
+
+        private void DataGreedToDoList_Loaded(object sender, RoutedEventArgs e)
+        {
+                  
         }
     }
 }

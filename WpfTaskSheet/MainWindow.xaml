@@ -11,11 +11,12 @@
             <ColumnDefinition Width="55*"/>
             <ColumnDefinition Width="17*"/>
         </Grid.ColumnDefinitions>
-        <DataGrid x:Name="dgToDoList" FontSize="16" FontWeight="Bold" Margin="10" 
+        <DataGrid x:Name="dgToDoList" FontSize="12" FontWeight="Bold" Margin="10" 
                   Loaded="DataGreedToDoList_Loaded" Grid.ColumnSpan="2" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=CreationDate}" IsReadOnly="True" Header= "CreationDate" Width="100" />
-                <DataGridCheckBoxColumn Binding="{Binding Path=IsDone, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Header= "Done" Width="80" />
+                <DataGridTextColumn Binding="{Binding Path=CreationDate}" IsReadOnly="True" Header= "CreationDate" Width="120" />
+                <DataGridCheckBoxColumn Binding="{Binding Path=IsDone, UpdateSourceTrigger=PropertyChanged}" 
+                                        IsReadOnly="False" Header= "Done" Width="50" />
                 <DataGridTextColumn Binding="{Binding Path=Text}" IsReadOnly="False" Header= "TODO" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
